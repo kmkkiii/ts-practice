@@ -104,3 +104,39 @@ const obj: FooBarObj = {
   foo: 123,
   bar: "Hello, world!"
 }
+
+// interface宣言 interface 型名 オブジェクト型
+// Declaration Mergingを行う場合を除いて、type文で代用可能
+// interface FooBarObj {
+//   foo: number;
+//   bar: string;
+// }
+
+// インデックスシグネチャ [キー名: string]: 型;
+// プロパティ名が動的に決まる場合に用いる。型安全性が破壊される恐れがある。
+type PriceData = {
+  [key: string]: number;
+}
+const data: PriceData = {
+  apple: 220,
+  coffe: 120,
+  bento: 500
+};
+
+// オプショナル(あってもなくてもいい)なプロパティ宣言 プロパティ名の後ろに？を付加する
+type MyObj = {
+  foo: boolean;
+  bar: boolean;
+  baz?: number;
+}
+
+// 読み取り専用プロパティ 再代入をコンパイルエラーとする
+type MyObj2 = {
+  readonly foo: number;
+}
+
+// typeof 型推論の結果を型として抽出・再利用したい場合に効果的
+const num: number = 0;
+type T = typeof num; // typeof 変数名
+const foo: T = 123;
+
