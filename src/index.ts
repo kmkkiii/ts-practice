@@ -75,15 +75,15 @@ rl.question('数値を入力してください:', (line) => {
 })
 
 // スプレッド構文 ※プロパティのコピー
-const obj1 = {
-  bar: 456,
-  baz: 789
-};
+// const obj1 = {
+//   bar: 456,
+//   baz: 789
+// };
 
-const obj2 = {
-  foo: 123,
-  ...obj1
-};
+// const obj2 = {
+//   foo: 123,
+//   ...obj1
+// };
 
 // オブジェクトの型
 // const obj: {
@@ -95,15 +95,15 @@ const obj2 = {
 // };
 
 // type文 type 型名 = 型;
-type FooBarObj = {
-  foo: number;
-  bar: string;
-}
+// type FooBarObj = {
+//   foo: number;
+//   bar: string;
+// }
 
-const obj: FooBarObj = {
-  foo: 123,
-  bar: "Hello, world!"
-}
+// const obj: FooBarObj = {
+//   foo: 123,
+//   bar: "Hello, world!"
+// }
 
 // interface宣言 interface 型名 オブジェクト型
 // Declaration Mergingを行う場合を除いて、type文で代用可能
@@ -139,4 +139,66 @@ type MyObj2 = {
 const num: number = 0;
 type T = typeof num; // typeof 変数名
 const foo: T = 123;
+
+// 部分型関係 -> 構造的部分型 プロパティの包含関係により発生する
+// foo, bar以外のプロパティを持っていても、いなくてもいい
+type FooBar = {
+  foo: string;
+  bar: number;
+}
+type FooBarBaz = {
+  foo: string;
+  bar: number;
+  baz: boolean;
+}
+
+// const obj: FooBarBaz = {
+//   foo: "hi",
+//   bar: 1,
+//   baz: false
+// };
+// const obj2:FooBar = obj;
+
+// 型引数を持つ型 -> ジェネリック型
+type User<T> = {
+  name: string;
+  child: T;
+}
+
+// 同じ型の　mother, fatherプロパティを持ち、さらにchildプロパティを持つ
+// type Family<Parent, Child> = {
+//   mother: Parent;
+//   father: Parent;
+//   child: Child;
+// };
+// const obj: Family<number, string> = {
+//   mother: 0,
+//   father: 100,
+//   child: "1000"
+// };
+
+// 部分型関係による型引数の制約
+// type HasName = {
+//   name: string;
+// };
+
+// type Family<Parent extends HasName, Child extends HasName> = {
+//   mother: Parent;
+//   father: Parent;
+//   child: Child;
+// }
+
+// オプショナルな型引数
+// 省略可能な型引数。この型が省略された場合のデフォルト値として扱われる。
+// オプショナルな型引数のあとにオプションでない型引数を宣言することはできない。後ろにまとめる必要あり。
+// extendsとオプショナルな型開発は両方同時に使うこともできる。
+type Animal = {
+  name: string;
+}
+
+type Family<Parent = Animal, Child = Animal> = {
+  mother: Parent;
+  father: Parent;
+  child: Child
+}
 
